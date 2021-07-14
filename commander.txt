@@ -1,0 +1,10 @@
+============ INFO SECTION ============
+D&D Inventory Commander - v0.0.1
+Loaded Inventories: Lazarus
+
+============ HELP SECTION ============
+
+=========== TABLE SECTION ============
+
+========== COMMAND SECTION ===========
+
