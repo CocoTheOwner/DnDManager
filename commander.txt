@@ -7,4 +7,4 @@ Loaded Inventories: Lazarus
 =========== TABLE SECTION ============
 
 ========== COMMAND SECTION ===========
-
+exit

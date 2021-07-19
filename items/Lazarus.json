@@ -1,4 +1,19 @@
 {
     "name": "Lazarus",
-    "items": {}
+    "items": {
+        "sword": {
+            "properties": {
+                "name": "sword",
+                "sellable": true,
+                "type": "weapon",
+                "weight": 5
+            },
+            "items": [
+                {
+                    "value": 7,
+                    "amount": 1
+                }
+            ]
+        }
+    }
 }

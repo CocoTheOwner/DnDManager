@@ -4,6 +4,8 @@ class Commander():
 
     file = "commander.txt"
 
+    loadedInventory = None
+
     lines = [["============ INFO SECTION ============"],
             ["============ HELP SECTION ============"],
             ["=========== TABLE SECTION ============"],
@@ -18,6 +20,8 @@ class Commander():
 
         self.addLine(self.Lines.INFO, "D&D Inventory Commander - " + self.version)
         self.addLine(self.Lines.INFO, "Loaded Inventories: " + ", ".join([inv.name for inv in inventories]))
+        self.addLine(self.Lines.INFO, "Selected Inventory: " + self.loadedInventory)
+
         self.writeLines()
 
         self.tick()

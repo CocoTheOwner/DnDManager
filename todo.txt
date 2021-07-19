@@ -6,3 +6,25 @@ Inventory -> item links
 Storage to drive
 Adding removing modifying items
 Adding removing modifying items in inventories
+Modifyable strength
+Backend database
+
+{
+    "name": "Lazarus",
+    "items": {
+        "sword": {
+            "properties": {
+                "name": "sword",
+                "sellable": true,
+                "type": "weapon",
+                "weight": 5
+            },
+            "items": [
+                {
+                    "value": 7,
+                    "amount": 1
+                }
+            ]
+        }
+    }
+}
