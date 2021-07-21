@@ -1,0 +1,7 @@
+{
+    "dummy": {
+        "sellable": true,
+        "type": "dummy",
+        "weight": 10
+    }
+}
