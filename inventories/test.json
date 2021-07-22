@@ -1,18 +1,11 @@
 {
     "name": "test",
-    "override": false,
     "max_weight": 150,
-    "items": [
-        {
-            "name": "test",
-            "amount": 1,
-            "weight": 3
-        }
-    ],
+    "items": [],
     "coins": {
-        "copper": 0,
+        "gold": 0,
         "silver": 0,
-        "gold": 5,
+        "copper": 0,
         "electrum": 0,
         "platinum": 0
     }
