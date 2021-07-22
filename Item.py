@@ -90,7 +90,7 @@ class Item:
             f.truncate()
 
     # Add this item to the ItemDatabase json
-    def addToDatabase(self, sellable: bool, type: str, weight: float):
+    def addToOverrideDatabase(self, sellable: bool, type: str, weight: float):
         self.sellable = sellable
         self.type = type
         self.weight = weight
