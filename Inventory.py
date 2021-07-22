@@ -1,45 +1,59 @@
 import json, random
 from Item import Item
-from Coins import Coins
+from Coin import Coin
 
 # Inventory class which has a name, a list of items, a max weight and a list of coins
 class Inventory:
-    items = list()
-    def __init__(self, name: str, max_weight = 150, items = [], coins = Coins.EMPTY, override = False):
+    name: str
+    items = None
+    coins = None
+    max_weight = None
+
+    def __init__(self, name: str, items = [], coins = Coin.EMPTY.copy(), max_weight = 150, override = False):
         self.name = name
-        self.override = override
-        # TODO: Load
-        self.max_weight = max_weight
-        self.items = items
-        self.coins = coins
+        self.load(items, coins, max_weight)
 
     # add item to inventory
     # returns true if successful, false if not
     def addItem(self, item: Item):
-        if self.getItemWeight() + self.getCoinWeight() + item.getWeight() * item.getAmount() <= self.max_weight:
+        if self.getInventoryWeight() + Coin.getCoinWeight(self.coins) + item.getWeight() * item.getAmount() <= self.max_weight:
             self.items.append(item)
             return True
         else:
             return False
-    
-    # remove an item from inventory
-    # returns true if the item is there
-    def removeItem(self, item):
-        if item in self.items:
-            self.items.remove(item)
-            return True
-        else:
-            return False
 
-    # remove an amount of items from the inventory
-    # returns true if all items could be removed, else false 
-    # does not remove items if more are asked to be removed
-    def removeAmount(self, item: Item, amount):
-        for _item in self.items:
-            if item.equals(_item):
-                _item.remove(amount)
+    # add coins to inventory
+    def addCoin(self, coin: Coin):
+        if not coin.addTo(self.coins):
+            print("Failed to add coin " + coin + " to " + self.name + " (coins: " + str(self.coins) + ")")
+            return False
+        else:
+            return True
+    
+    # remove an item from inventory regardless of the amount
+    # returns true if the item is there
+    def removeItem(self, item: Item, amount = -1):
+        if item in self.items:
+            if amount == -1:
+                self.items.remove(item)
                 return True
+            else:
+                for _item in self.items:
+                    if item.equals(_item):
+                        _item.remove(amount)
+                        return True
         return False
+        
+    # calculate the total weight of the inventory
+    def getInventoryWeight(self):
+        weight = 0
+        for item in self.items:
+            weight += item.getWeight() * item.getAmount()
+        return weight
+
+    # get inventory weight left
+    def getInventoryLeft(self):
+        return self.max_weight - self.getInventoryWeight()
 
     # save the inventory to a json file
     def save(self):
@@ -57,23 +71,36 @@ class Inventory:
 
         self.items = itemObjects
 
-    # calculate the total weight of the inventory
-    def getItemWeight(self):
-        weight = 0
-        for item in self.items:
-            weight += item.getWeight() * item.getAmount()
-        return weight
+    # load the inventory from a json file
+    def load(self, altItems: list, altCoins: dict, altMaxWeight: int):
+        with open("inventories/" + self.name + '.json', 'r') as f:
+            data = json.load(f)
+            self.__dict__.update(data)
+            self.items = []
+            for item in data['items']:
+                self.items.append(Item(item['name'], item['amount'], item['weight']))
 
-    # add coins to inventory
-    def addCoins(self, coins: Coins):
-        if not coins.addCoins(self.coins):
-            print("Failed to add coins " + coins + " to " + self.name + " (coins: " + str(self.coins) + ")")
-            return False
-        else:
+            # check if items, coins and max weight are set
+            if self.items is None or self.coins is None or self.max_weight is None:
+                if self.items == None:
+                    self.items = altItems
+                if self.coins == None:
+                    self.coins = altCoins
+                if self.max_weight == None:
+                    self.max_weight = altMaxWeight
+                return False
             return True
+
+    # reset the inventory using the emptyInventory.json file
+    def reset(self):
+        with open("emptyInventory.json", 'r') as f:
+            data = json.load(f)
+            name = self.name
+            self.__dict__.update(data)
+            self.name = name
+            self.save()
 
 # if name is main
 if __name__ == '__main__':
     inventory = Inventory('test')
-
-    inventory.save()
+    inventory.reset()

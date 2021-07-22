@@ -2,6 +2,16 @@ import json
 
 # Item class, has a name, this amount thisd a price
 class Item:
+
+    name: str
+    amount: int
+    price: float
+
+    sellable = None
+    type = None
+    weight = None
+
+
     def __init__(self, name, amount, price):
         self.name = name
         self.amount = amount
@@ -9,11 +19,11 @@ class Item:
         self.loadProperties()
 
     # Add this item to the amount
-    def add(self, amount):
+    def add(self, amount: int):
         self.amount += amount
 
     # Remove this item from the amount
-    def remove(self, amount):
+    def remove(self, amount: int):
         self.amount -= amount
 
     # Get the amount of this item
@@ -21,7 +31,7 @@ class Item:
         return self.amount
     
     # Set the amount of this item
-    def setAmount(self, amount):
+    def setAmount(self, amount: int):
         self.amount = amount
 
     # Get the price of this item
@@ -29,7 +39,7 @@ class Item:
         return self.price
 
     # Set the price of this item
-    def setPrice(self, price):
+    def setPrice(self, price: float):
         self.price = price
 
     # Get the name of this item
@@ -49,7 +59,7 @@ class Item:
         return self.weight
 
     # Compare this item to another item based on name and amount
-    def equals(self, item):
+    def equals(self, item: 'Item'):
         return self.name == item.getName() and self.amount == item.getAmount()
 
     # Get the properties of this item from the ItemDatabase.json file
@@ -61,6 +71,7 @@ class Item:
             self.type = data[self.name]['type']
             self.weight = data[self.name]['weight']
         else:
+            print("Item " + self.name + " not in database! Set item properties with Item#addToDatabase")
             self.sellable = None
             self.type = None
             self.weight = None
@@ -107,3 +118,7 @@ class Item:
 # if name is main print the json serialized item
 if __name__ == '__main__':
     item = Item('dummy', 1, 1)
+    print(item.isValid())
+    if not item.isValid():
+        item.addToDatabase(True, 'dummy', 1)
+    print(item.isValid())

@@ -3,5 +3,10 @@
         "sellable": true,
         "type": "dummy",
         "weight": 10
+    },
+    "test": {
+        "sellable": true,
+        "type": "dummy",
+        "weight": 3
     }
 }
