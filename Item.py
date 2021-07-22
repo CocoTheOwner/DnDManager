@@ -78,16 +78,7 @@ class Item:
 
     # Set the properties of this item to the ItemDatabase.json file
     def saveProperties(self):
-        with open('ItemDatabase.json', 'r+') as f:
-            data = json.load(f)
-            data[self.name] = {
-                'sellable': self.sellable,
-                'type': self.type,
-                'weight': self.weight
-            }
-            f.seek(0)
-            json.dump(data, f, indent=4)
-            f.truncate()
+        Item.addToDatabase(self.sellable, self.type, self.weight)
 
     # Add this item to the ItemDatabase json
     def addToOverrideDatabase(self, sellable: bool, type: str, weight: float):
@@ -96,6 +87,19 @@ class Item:
         self.weight = weight
         self.saveProperties()
         return self.isValid()
+
+    # Add blank item to ItemDatabase.json
+    def addToDatabase(name: str, sellable: bool, type: str, weight: float):
+        with open('ItemDatabase.json', 'r+') as f:
+            data = json.load(f)
+            data[name] = {
+                'sellable': sellable,
+                'type': type,
+                'weight': weight
+            }
+            f.seek(0)
+            json.dump(data, f, indent=4)
+            f.truncate()
             
     # Validate the item to make sure it has properties
     def isValid(self):
