@@ -1,3 +1,4 @@
+import traceback
 class Coin:
 
     def __init__(self, type: str, amount: int):
@@ -30,7 +31,21 @@ class Coin:
         coins[self.type] += self.amount
         return True
 
-# if name is main test the class
+# validations
 if __name__ == "__main__":
-    c = Coin(Coin.PLATINUM, 1)
-    print(c.getCoinWeight(Coin.EMPTY))
+    try:
+        coins = {Coin.PLATINUM: 10, Coin.SILVER: 10, Coin.GOLD: 0, Coin.ELECTRUM: 0, Coin.COPPER: 0}
+        coin = Coin(Coin.ELECTRUM, 5)
+        coin.addTo(coins)
+        if not coins == {Coin.PLATINUM: 10, Coin.SILVER: 10, Coin.GOLD: 0, Coin.ELECTRUM: 5, Coin.COPPER: 0}:
+            print("ERROR: Coin addition broken")
+        if not Coin.isValid(coins):
+            print("ERROR: Coin validation is broken on all")
+        if {Coin.PLATINUM, Coin.SILVER, Coin.GOLD, Coin.ELECTRUM, Coin.COPPER} != Coin.EMPTY:
+            print("ERROR: Coin type list broken")
+        if not Coin.isValid(Coin.EMPTY):
+            print("ERROR: Coin validation is broken on empty")
+    except Exception as e:
+        # print a traceback
+        print("Exception raised during inventory test: " + e)
+        traceback.print_exc()
